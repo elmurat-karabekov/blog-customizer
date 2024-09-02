@@ -9,11 +9,18 @@ const meta: Meta<typeof ArrowButton> = {
 export default meta;
 type Story = StoryObj<typeof ArrowButton>;
 
+const onClick = () => {
+	console.log('ArrowButton clicked');
+};
+
+const open = false;
+
+// TODO: check how to properly set props (onClick) in Storybook
 export const ArrowButtonStory: Story = {
 	render: () => {
 		return (
 			<>
-				<ArrowButton />
+				<ArrowButton onClick={onClick} isFormOpen={open} />
 			</>
 		);
 	},
