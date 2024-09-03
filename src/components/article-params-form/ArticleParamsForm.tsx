@@ -14,21 +14,35 @@ import {
 	fontColors,
 	fontFamilyOptions,
 	fontSizeOptions,
+	OptionType,
 } from 'src/constants/articleProps';
 import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 
+// TODO: bug -- on select option in form click outside is triggered
 // TODO: implement form handling (controlled components?? one handler for many fields??)
 export const ArticleParamsForm = () => {
 	const menuRef = useRef<HTMLElement>(null);
 	const arrowButtonRef = useRef<HTMLDivElement>(null);
 
 	const [isOpen, setIsOpen] = useState(false);
+	const [formFields, setFormFields] = useState({
+		fontFamily: fontFamilyOptions[0],
+		fontSize: fontSizeOptions[0],
+		fontColor: fontColors[0],
+		backgroundColor: backgroundColors[0],
+		contentWidth: contentWidthArr[0],
+	});
 
 	const toggleOpen = () => {
 		setIsOpen((prev) => !prev);
 	};
 
-	useOutsideClickClose({ isOpen, menuRef, arrowButtonRef, setIsOpen });
+	useOutsideClickClose({
+		isOpen: isOpen,
+		menuRef,
+		arrowButtonRef,
+		setIsOpen,
+	});
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -37,6 +51,16 @@ export const ArticleParamsForm = () => {
 
 	const handleFormReset = () => {
 		console.log('reset button was pressed');
+	};
+
+	const handleFormFieldChange = (
+		option: OptionType,
+		field: keyof typeof formFields
+	) => {
+		setFormFields((prev) => ({
+			...prev,
+			[field]: option,
+		}));
 	};
 
 	return (
@@ -58,30 +82,45 @@ export const ArticleParamsForm = () => {
 					</Text>
 					<Select
 						title='шрифт'
-						selected={fontFamilyOptions[0]}
+						selected={formFields.fontFamily}
 						options={fontFamilyOptions}
+						onChange={(option: OptionType) =>
+							handleFormFieldChange(option, 'fontFamily')
+						}
 					/>
 					<RadioGroup
 						title='рАЗМЕР шрифта'
-						selected={fontSizeOptions[0]}
+						selected={formFields.fontSize}
 						options={fontSizeOptions}
 						name='font-size_'
+						onChange={(option: OptionType) =>
+							handleFormFieldChange(option, 'fontSize')
+						}
 					/>
 					<Select
 						title='Цвет шрифта'
-						selected={fontColors[0]}
+						selected={formFields.fontColor}
 						options={fontColors}
+						onChange={(option: OptionType) =>
+							handleFormFieldChange(option, 'fontColor')
+						}
 					/>
 					<Separator />
 					<Select
 						title='Цвет фона'
-						selected={backgroundColors[0]}
+						selected={formFields.backgroundColor}
 						options={backgroundColors}
+						onChange={(option: OptionType) =>
+							handleFormFieldChange(option, 'backgroundColor')
+						}
 					/>
 					<Select
 						title='Цвет фона'
-						selected={contentWidthArr[0]}
+						selected={formFields.contentWidth}
 						options={contentWidthArr}
+						onChange={(option: OptionType) =>
+							handleFormFieldChange(option, 'contentWidth')
+						}
 					/>
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' type='reset' />
