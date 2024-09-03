@@ -7,7 +7,7 @@ import { Separator } from '../separator';
 
 import styles from './ArticleParamsForm.module.scss';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import {
 	backgroundColors,
 	contentWidthArr,
@@ -15,20 +15,44 @@ import {
 	fontFamilyOptions,
 	fontSizeOptions,
 } from 'src/constants/articleProps';
+import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 
 // TODO: implement form handling (controlled components?? one handler for many fields??)
 export const ArticleParamsForm = () => {
-	const [open, setOpen] = useState(false);
+	const menuRef = useRef<HTMLElement>(null);
+	const arrowButtonRef = useRef<HTMLDivElement>(null);
+
+	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleOpen = () => {
-		setOpen((prev) => !prev);
+		setIsOpen((prev) => !prev);
+	};
+
+	useOutsideClickClose({ isOpen, menuRef, arrowButtonRef, setIsOpen });
+
+	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log('submit button was pressed');
+	};
+
+	const handleFormReset = () => {
+		console.log('reset button was pressed');
 	};
 
 	return (
 		<>
-			<ArrowButton isFormOpen={open} onClick={toggleOpen} />
-			<aside className={clsx(styles.container, open && styles.container_open)}>
-				<form className={styles.form}>
+			<ArrowButton
+				ref={arrowButtonRef}
+				isFormOpen={isOpen}
+				onClick={toggleOpen}
+			/>
+			<aside
+				className={clsx(styles.container, isOpen && styles.container_open)}
+				ref={menuRef}>
+				<form
+					className={styles.form}
+					onSubmit={handleFormSubmit}
+					onReset={handleFormReset}>
 					<Text as={'h2'} size={31} weight={800} uppercase={true}>
 						Задайте параметры
 					</Text>
