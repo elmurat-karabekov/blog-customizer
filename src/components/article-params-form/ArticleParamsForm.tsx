@@ -18,7 +18,6 @@ import {
 } from 'src/constants/articleProps';
 import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 
-// TODO: bug -- on select option in form click outside is triggered
 // TODO: implement form handling (controlled components?? one handler for many fields??)
 export const ArticleParamsForm = () => {
 	const menuRef = useRef<HTMLElement>(null);
@@ -38,7 +37,7 @@ export const ArticleParamsForm = () => {
 	};
 
 	useOutsideClickClose({
-		isOpen: isOpen,
+		isOpen,
 		menuRef,
 		arrowButtonRef,
 		setIsOpen,
