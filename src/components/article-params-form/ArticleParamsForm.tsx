@@ -11,6 +11,7 @@ import { FormEvent, useRef, useState } from 'react';
 import {
 	backgroundColors,
 	contentWidthArr,
+	CustomCSSProperties,
 	fontColors,
 	fontFamilyOptions,
 	fontSizeOptions,
@@ -18,8 +19,13 @@ import {
 } from 'src/constants/articleProps';
 import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 
-// TODO: implement form handling (controlled components?? one handler for many fields??)
-export const ArticleParamsForm = () => {
+type TArticleParamsForm = {
+	updateArticleStyle: React.Dispatch<React.SetStateAction<CustomCSSProperties>>;
+};
+
+export const ArticleParamsForm = ({
+	updateArticleStyle,
+}: TArticleParamsForm) => {
 	const menuRef = useRef<HTMLElement>(null);
 	const arrowButtonRef = useRef<HTMLDivElement>(null);
 
@@ -45,11 +51,37 @@ export const ArticleParamsForm = () => {
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('submit button was pressed');
+
+		updateArticleStyle({
+			'--font-family': formFields.fontFamily.value,
+			'--font-size': formFields.fontSize.value,
+			'--font-color': formFields.fontColor.value,
+			'--container-width': formFields.contentWidth.value,
+			'--bg-color': formFields.backgroundColor.value,
+		});
 	};
 
 	const handleFormReset = () => {
-		console.log('reset button was pressed');
+		setFormFields((prevFormFields) => {
+			const updatedFormFields = {
+				...prevFormFields,
+				fontFamily: fontFamilyOptions[0],
+				fontSize: fontSizeOptions[0],
+				fontColor: fontColors[0],
+				backgroundColor: backgroundColors[0],
+				contentWidth: contentWidthArr[0],
+			};
+
+			updateArticleStyle({
+				'--font-family': updatedFormFields.fontFamily.value,
+				'--font-size': updatedFormFields.fontSize.value,
+				'--font-color': updatedFormFields.fontColor.value,
+				'--container-width': updatedFormFields.contentWidth.value,
+				'--bg-color': updatedFormFields.backgroundColor.value,
+			});
+
+			return updatedFormFields;
+		});
 	};
 
 	const handleFormFieldChange = (

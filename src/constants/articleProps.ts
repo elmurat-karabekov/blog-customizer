@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 export const fontFamilyClasses = [
 	'open-sans',
 	'ubuntu',
@@ -14,6 +16,14 @@ export type OptionType = {
 	className: string;
 	optionClassName?: string;
 };
+
+export interface CustomCSSProperties extends CSSProperties {
+	'--font-family'?: string;
+	'--font-size'?: string;
+	'--font-color'?: string;
+	'--container-width'?: string;
+	'--bg-color'?: string;
+}
 
 export const fontFamilyOptions: OptionType[] & {
 	optionClassName?: FontFamiliesClasses;
