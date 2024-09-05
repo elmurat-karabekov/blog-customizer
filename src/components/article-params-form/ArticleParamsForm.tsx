@@ -29,7 +29,7 @@ export const ArticleParamsForm = ({
 	const menuRef = useRef<HTMLElement>(null);
 	const arrowButtonRef = useRef<HTMLDivElement>(null);
 
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [formFields, setFormFields] = useState({
 		fontFamily: fontFamilyOptions[0],
 		fontSize: fontSizeOptions[0],
@@ -39,14 +39,14 @@ export const ArticleParamsForm = ({
 	});
 
 	const toggleOpen = () => {
-		setIsOpen((prev) => !prev);
+		setIsMenuOpen((prev) => !prev);
 	};
 
 	useOutsideClickClose({
-		isOpen,
+		isMenuOpen,
 		menuRef,
 		arrowButtonRef,
-		setIsOpen,
+		setIsMenuOpen,
 	});
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -98,11 +98,11 @@ export const ArticleParamsForm = ({
 		<>
 			<ArrowButton
 				ref={arrowButtonRef}
-				isFormOpen={isOpen}
+				isFormOpen={isMenuOpen}
 				onClick={toggleOpen}
 			/>
 			<aside
-				className={clsx(styles.container, isOpen && styles.container_open)}
+				className={clsx(styles.container, isMenuOpen && styles.container_open)}
 				ref={menuRef}>
 				<form
 					className={styles.form}

@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
 type UseOutsideClickClose = {
-	isOpen: boolean;
-	setIsOpen: (value: boolean) => void;
+	isMenuOpen: boolean;
+	setIsMenuOpen: (value: boolean) => void;
 	menuRef: React.RefObject<HTMLElement | null>;
 	arrowButtonRef: React.RefObject<HTMLElement | null>;
 };
 
 export const useOutsideClickClose = ({
-	isOpen,
+	isMenuOpen,
 	menuRef,
 	arrowButtonRef,
-	setIsOpen,
+	setIsMenuOpen,
 }: UseOutsideClickClose) => {
 	useEffect(() => {
 		const handleClick = (event: MouseEvent) => {
@@ -22,13 +22,13 @@ export const useOutsideClickClose = ({
 				!menuRef.current?.contains(target) &&
 				!arrowButtonRef.current?.contains(target)
 			) {
-				setIsOpen(false);
+				setIsMenuOpen(false);
 			}
 		};
 
-		if (isOpen) {
+		if (isMenuOpen) {
 			window.addEventListener('mousedown', handleClick);
 			return () => window.removeEventListener('mousedown', handleClick);
 		}
-	}, [isOpen, menuRef, arrowButtonRef, setIsOpen]);
+	}, [isMenuOpen, menuRef, arrowButtonRef, setIsMenuOpen]);
 };
