@@ -7,8 +7,11 @@ import styles from './index.module.scss';
 type TextProps = {
 	/** Сам текст для вывода */
 	children: ReactNode;
-	/** Тэг которым отрендерить текст */
-	as?: ElementType;
+	/** Тэг которым отрендерить текст
+	 * : ElementType - allow any component type, inlcuding HTML tags, and React components
+	 * : keyof HTMLElementTagNameMap - allow only valid HTML tags
+	 */
+	as?: keyof HTMLElementTagNameMap;
 	/** Булевая пропса, должен ли текст меняться в зависимости от конфига */
 	dynamic?: boolean;
 	/** Размер шрифта */
